@@ -85,9 +85,10 @@ chmod 755 /opt/deb/$VERSION/DEBIAN/prerm
 cp /opt/go/src/github.com/lxc/lxd/config/bash/lxd-client     /opt/deb/$VERSION/etc/bash_completion.d/
 
 # Copie des binaires :
-cp /opt/go/bin/lxc              /opt/deb/$VERSION/usr/bin/
-cp /opt/go/bin/lxd              /opt/deb/$VERSION/usr/bin/
-cp /opt/go/bin/lxd-benchmark    /opt/deb/$VERSION/usr/bin/
+cd /opt/go/bin/
+/usr/bin/install -c lxc              /opt/deb/$VERSION/usr/bin/
+/usr/bin/install -c lxd              /opt/deb/$VERSION/usr/bin/
+/usr/bin/install -c lxd-benchmark    /opt/deb/$VERSION/usr/bin/
 
 # Création du service systemd
 cat << 'EOF' > /opt/deb/$VERSION/lib/systemd/system/lxd.service
