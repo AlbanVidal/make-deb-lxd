@@ -68,10 +68,10 @@ if [ $update_subXids ]; then
     logger --stderr --tag lxd-install --priority notice "You'll need sub{u,g}ids for root, so that LXD can create the unprivileged containers"
     logger --stderr --tag lxd-install --priority notice "To enable sub{u,g}ids for root, you need to reboot this node"
     logger --stderr --tag lxd-install --priority notice "If is possible, we recommend you to only create unprivileged container"
-else
-    logger --stderr --tag lxd-install --priority notice "Starting LXD daemon"
-    systemctl start lxd
 fi
+
+logger --stderr --tag lxd-install --priority notice "Starting LXD daemon"
+systemctl start lxd
 
 EOF
 
