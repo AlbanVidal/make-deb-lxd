@@ -42,18 +42,13 @@ EOF
 cat << 'EOF' > /opt/deb/$VERSION/DEBIAN/postinst
 #!/bin/sh
 
-function log()
-{
-    logger --stderr --tag lxd-install --priority notice $@
-}
-
 if ! grep -q root:1000000:65536 /etc/subuid; then
-    log "Add subuid root:1000000:65536 in /etc/subuid file"
+    logger --stderr --tag lxd-install --priority notice "Add subuid root:1000000:65536 in /etc/subuid file"
     echo 'root:1000000:65536' >> /etc/subuid;
     update_subXids=true
 fi
 if ! grep -q root:1000000:65536 /etc/subgid; then
-    log "Add subgid root:1000000:65536 in /etc/subgid file"
+    logger --stderr --tag lxd-install --priority notice "Add subgid root:1000000:65536 in /etc/subgid file"
     echo 'root:1000000:65536' >> /etc/subgid;
     update_subXids=true
 fi
@@ -70,13 +65,14 @@ To force load bash-completion:
 
 # If subuid or subgid are enabled now, need reboot no enable it
 if [ $update_subXids ]; then
-    log "You'll need sub{u,g}ids for root, so that LXD can create the unprivileged containers"
-    log "To enable sub{u,g}ids for root, you need to reboot this node"
-    log "If is possible, we recommend you to only create unprivileged container"
+    logger --stderr --tag lxd-install --priority notice "You'll need sub{u,g}ids for root, so that LXD can create the unprivileged containers"
+    logger --stderr --tag lxd-install --priority notice "To enable sub{u,g}ids for root, you need to reboot this node"
+    logger --stderr --tag lxd-install --priority notice "If is possible, we recommend you to only create unprivileged container"
 else
-    log "Starting LXD daemon"
+    logger --stderr --tag lxd-install --priority notice "Starting LXD daemon"
     systemctl start lxd
 fi
+
 EOF
 
 chmod 755 /opt/deb/$VERSION/DEBIAN/postinst
@@ -85,21 +81,16 @@ chmod 755 /opt/deb/$VERSION/DEBIAN/postinst
 cat << 'EOF' > /opt/deb/$VERSION/DEBIAN/prerm
 #!/bin/sh
 
-function log()
-{
-    logger --stderr --tag lxd-install --priority notice $@
-}
-
-log "Stop and disable lxd daemon"
+logger --stderr --tag lxd-install --priority notice "Stop and disable lxd daemon"
 systemctl disable lxd
 systemctl stop lxd
 systemctl daemon-reload
 
-log "Delete sub{u,g}ids in files /etc/subuid and /etc/subuid"
+logger --stderr --tag lxd-install --priority notice "Delete sub{u,g}ids in files /etc/subuid and /etc/subuid"
 sed -i '/root:1000000:65536/d' /etc/subgid
 sed -i '/root:1000000:65536/d' /etc/subgid
 
-log "Delete lxd-client bash_completion"
+logger --stderr --tag lxd-install --priority notice "Delete lxd-client bash_completion"
 rm -f /usr/share/bash-completion/completions/lxd-client
 
 EOF
