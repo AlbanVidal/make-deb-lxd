@@ -5,7 +5,7 @@ apt update
 apt -y upgrade
 
 # Required : Install nécessary packages and dependencyies to compile LXC
-apt install acl dnsmasq-base git golang liblxc1 lxc-dev libacl1-dev make pkg-config rsync squashfs-tools tar xz-utils
+apt install acl dnsmasq-base git golang liblxc1 lxc-dev libacl1-dev make pkg-config rsync squashfs-tools tar xz-utils bsdutils
 # Optional : Install LVM tools and lvm thin provisioning tools
 apt install lvm2 thin-provisioning-tools
 # Optional : Install bridge-utils to create a bridge to test LXD in this host
