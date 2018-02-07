@@ -23,7 +23,7 @@ mkdir -p /opt/deb/$VERSION/DEBIAN
 # Création des sous-répertoires
 mkdir -p /opt/deb/$VERSION/usr/bin
 mkdir -p /opt/deb/$VERSION/lib/systemd/system
-mkdir -p /opt/deb/$VERSION/etc/bash_completion.d/
+mkdir -p /opt/deb/$VERSION/usr/share/bash-completion/completions
 
 # Fichier Debian control
 cat << EOF > /opt/deb/$VERSION/DEBIAN/control
@@ -32,57 +32,82 @@ Version: $version_maj-$version_min
 Section: base
 Priority: optional
 Architecture: $version_arch
-Depends: lxc, liblxc1, lxcfs, acl, squashfs-tools, dnsmasq-base
+Depends: lxc, liblxc1, lxcfs, acl, squashfs-tools, dnsmasq-base, bsdutils
 Recommends: btrfs-progs, btrfs-tools, lvm2, thin-provisioning-tools
 Maintainer: Alban Vidal <alban.vidal@zordhak.fr>
 Description: Daemon based on liblxc offering a REST API to manage containers
 EOF
 
 # Script de post-Installation
-cat << EOF > /opt/deb/$VERSION/DEBIAN/postinst
+cat << 'EOF' > /opt/deb/$VERSION/DEBIAN/postinst
 #!/bin/sh
 
-echo ""
-echo "You'll need sub{u,g}ids for root, so that LXD can create the unprivileged containers"
-echo "Add sub{u,g}ids in files /etc/subuid and /etc/subuid"
+function log()
+{
+    logger --stderr --tag lxd-install --priority notice $@
+}
 
-if ! grep -q root:1000000:65536 /etc/subuid; then echo 'root:1000000:65536' >> /etc/subuid; fi
-if ! grep -q root:1000000:65536 /etc/subgid; then echo 'root:1000000:65536' >> /etc/subgid; fi
+if ! grep -q root:1000000:65536 /etc/subuid; then
+    log "Add subuid root:1000000:65536 in /etc/subuid file"
+    echo 'root:1000000:65536' >> /etc/subuid;
+    update_subXids=true
+fi
+if ! grep -q root:1000000:65536 /etc/subgid; then
+    log "Add subgid root:1000000:65536 in /etc/subgid file"
+    echo 'root:1000000:65536' >> /etc/subgid;
+    update_subXids=true
+fi
 
-echo "Enable and start lxd daemon"
+logger --stderr --tag lxd-install --priority notice "Enable lxd daemon"
 systemctl daemon-reload
-systemctl start lxd
 systemctl enable lxd
 
 echo "
 To force load bash-completion:
-. /etc/bash_completion.d/lxd-client
+. /usr/share/bash-completion/completions/lxd-client
 
-To enable sub{u,g}ids for root, you need to reboot this node
 "
+
+# If subuid or subgid are enabled now, need reboot no enable it
+if [ $update_subXids ]; then
+    log "You'll need sub{u,g}ids for root, so that LXD can create the unprivileged containers"
+    log "To enable sub{u,g}ids for root, you need to reboot this node"
+    log "If is possible, we recommend you to only create unprivileged container"
+else
+    log "Starting LXD daemon"
+    systemctl start lxd
+fi
 EOF
 
 chmod 755 /opt/deb/$VERSION/DEBIAN/postinst
 
 # Fichier de pré-suppression
-cat << EOF > /opt/deb/$VERSION/DEBIAN/prerm
+cat << 'EOF' > /opt/deb/$VERSION/DEBIAN/prerm
 #!/bin/sh
 
-echo "Stop and disable lxd daemon"
+function log()
+{
+    logger --stderr --tag lxd-install --priority notice $@
+}
+
+log "Stop and disable lxd daemon"
 systemctl disable lxd
 systemctl stop lxd
 systemctl daemon-reload
 
-echo "Delete sub{u,g}ids in files /etc/subuid and /etc/subuid"
+log "Delete sub{u,g}ids in files /etc/subuid and /etc/subuid"
 sed -i '/root:1000000:65536/d' /etc/subgid
 sed -i '/root:1000000:65536/d' /etc/subgid
+
+log "Delete lxd-client bash_completion"
+rm -f /usr/share/bash-completion/completions/lxd-client
 
 EOF
 
 chmod 755 /opt/deb/$VERSION/DEBIAN/prerm
 
 # Copie de l'auto-completion
-cp /opt/go/src/github.com/lxc/lxd/config/bash/lxd-client     /opt/deb/$VERSION/etc/bash_completion.d/
+cp /opt/go/src/github.com/lxc/lxd/config/bash/lxd-client     /opt/deb/$VERSION/usr/share/bash-completion/completions/
 
 # Copie des binaires :
 cd /opt/go/bin/
