@@ -64,7 +64,7 @@ To force load bash-completion:
 "
 
 # If subuid or subgid are enabled now, need reboot no enable it
-if [ $update_subXids ]; then
+if ${update_subXids:-false} ; then
     logger --stderr --tag lxd-install --priority notice "You'll need sub{u,g}ids for root, so that LXD can create the unprivileged containers"
     logger --stderr --tag lxd-install --priority notice "To enable sub{u,g}ids for root, you need to reboot this node"
     logger --stderr --tag lxd-install --priority notice "If is possible, we recommend you to only create unprivileged container"
