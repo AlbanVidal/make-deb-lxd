@@ -1,6 +1,10 @@
 Compile latest version of LXD to create a .deb file
 ===================================================
 
+Working on:
++ [x] Debian 9 (stretch)
++ [x] Debian 10 (buster)
+
 **For English version, see below**
 
 ---
