@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Search the actual version number in LXD website
-version_maj=$(curl -s https://linuxcontainers.org/lxd/downloads/|grep 'href="/downloads/lxd/lxd-'|head -n1|sed 's/.*>lxd-\([0-9].[0-9]*\).*/\1/')
+# Search the actual version number in LXD sources
+version_maj=$(grep -Eo '[0-9]+\.[0-9]+' /opt/go/src/github.com/lxc/lxd/shared/version/flex.go)
 
 # année mois jour heure
 #version_min=$(date +%Y%m%d.%H)
