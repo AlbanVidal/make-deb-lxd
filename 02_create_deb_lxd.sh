@@ -4,7 +4,8 @@
 version_maj=$(curl -s https://linuxcontainers.org/lxd/downloads/|grep 'href="/downloads/lxd/lxd-'|head -n1|sed 's/.*>lxd-\([0-9].[0-9]*\).*/\1/')
 
 # année mois jour heure
-version_min=$(date +%Y%m%d.%H)
+#version_min=$(date +%Y%m%d.%H)
+version_min=$(date +%Y%m%d)
 # 
 version_arch=$(dpkg --print-architecture)
 #
