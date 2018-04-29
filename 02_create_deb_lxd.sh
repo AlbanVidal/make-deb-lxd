@@ -103,13 +103,14 @@ chmod 755 /opt/deb/$VERSION/DEBIAN/prerm
 
 # Copie de l'auto-completion
 #cp /opt/go/src/github.com/lxc/lxd/config/bash/lxd-client     /opt/deb/$VERSION/usr/share/bash-completion/completions/
-cp /opt/go/src/github.com/lxc/lxd/config/bash/lxd-client     /opt/deb/$VERSION/etc/bash_completion.d/
+cp /opt/go/src/github.com/lxc/lxd/scripts/bash/lxd-client     /opt/deb/$VERSION/etc/bash_completion.d/
 
 # Copie des binaires :
 cd /opt/go/bin/
 /usr/bin/install -c lxc              /opt/deb/$VERSION/usr/bin/
 /usr/bin/install -c lxd              /opt/deb/$VERSION/usr/bin/
 /usr/bin/install -c lxd-benchmark    /opt/deb/$VERSION/usr/bin/
+/usr/bin/install -c lxd-p2c          /opt/deb/$VERSION/usr/bin/
 
 # Création du service systemd
 cat << 'EOF' > /opt/deb/$VERSION/lib/systemd/system/lxd.service
