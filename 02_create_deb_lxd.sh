@@ -23,7 +23,8 @@ mkdir -p /opt/deb/$VERSION/DEBIAN
 # Création des sous-répertoires
 mkdir -p /opt/deb/$VERSION/usr/bin
 mkdir -p /opt/deb/$VERSION/lib/systemd/system
-mkdir -p /opt/deb/$VERSION/usr/share/bash-completion/completions
+#mkdir -p /opt/deb/$VERSION/usr/share/bash-completion/completions
+mkdir -p /opt/deb/$VERSION/etc/bash_completion.d/
 
 # Fichier Debian control
 cat << EOF > /opt/deb/$VERSION/DEBIAN/control
@@ -59,7 +60,8 @@ systemctl enable lxd
 
 echo "
 To force load bash-completion:
-. /usr/share/bash-completion/completions/lxd-client
+. /etc/bash_completion.d/lxd-client
+#. /usr/share/bash-completion/completions/lxd-client
 
 "
 
@@ -91,14 +93,16 @@ sed -i '/root:1000000:65536/d' /etc/subgid
 sed -i '/root:1000000:65536/d' /etc/subgid
 
 logger --stderr --tag lxd-install --priority notice "Delete lxd-client bash_completion"
-rm -f /usr/share/bash-completion/completions/lxd-client
+rm -f /etc/bash_completion.d/lxd-client
+#rm -f /usr/share/bash-completion/completions/lxd-client
 
 EOF
 
 chmod 755 /opt/deb/$VERSION/DEBIAN/prerm
 
 # Copie de l'auto-completion
-cp /opt/go/src/github.com/lxc/lxd/config/bash/lxd-client     /opt/deb/$VERSION/usr/share/bash-completion/completions/
+#cp /opt/go/src/github.com/lxc/lxd/config/bash/lxd-client     /opt/deb/$VERSION/usr/share/bash-completion/completions/
+cp /opt/go/src/github.com/lxc/lxd/config/bash/lxd-client     /opt/deb/$VERSION/etc/bash_completion.d/
 
 # Copie des binaires :
 cd /opt/go/bin/
