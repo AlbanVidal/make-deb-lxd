@@ -14,11 +14,11 @@ elif grep buster /etc/os-release; then
 fi
 
 # Required : Install nécessary packages and dependencyies to compile LXC
-apt install acl dnsmasq-base git liblxc1 lxc-dev libacl1-dev make pkg-config rsync squashfs-tools tar xz-utils bsdutils
+apt install -y acl dnsmasq-base git liblxc1 lxc-dev libacl1-dev make pkg-config rsync squashfs-tools tar xz-utils bsdutils
 # Optional : Install LVM tools and lvm thin provisioning tools
-apt install lvm2 thin-provisioning-tools
+apt install -y lvm2 thin-provisioning-tools
 # Optional : Install bridge-utils to create a bridge to test LXD in this host
-apt install bridge-utils
+apt install -y bridge-utils
 
 # purge (delete) old directory
 #rm -rf /opt/go/lxd
