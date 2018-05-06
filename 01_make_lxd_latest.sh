@@ -1,16 +1,22 @@
 #!/bin/bash
 
 # Update and upgrade OS
-apt update
-apt -y upgrade
+apt-get update
+apt-get upgrade -y
 
 # Need golang v10
 if grep stretch /etc/os-release; then
-    # for stretch (Debian 9), install via stretch-backports repository
-    apt install -y -t stretch-backports golang golang-doc golang-go golang-src
+    ## For stretch (Debian 9), install via stretch-backports repository
+    # Install software-properties-common, necessary for use add-apt-repository
+    apt-get install -y software-properties-common
+    # Add stretch-backports repository
+    add-apt-repository 'deb http://ftp.fr.debian.org/debian stretch-backports main contrib non-free'
+    apt-get update
+    # Install golang package in stretch-backports repository
+    apt-get install -y -t stretch-backports golang golang-doc golang-go golang-src
 elif grep buster /etc/os-release; then
     # natively in buster (Debian 10)
-    apt install -y golang
+    apt-get install -y golang
 fi
 
 # Required : Install nécessary packages and dependencyies to compile LXC
