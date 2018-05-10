@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Optional : Install bridge-utils to create a bridge to test LXD in this host
-apt install -y bridge-utils
-
 # purge (delete) old directory
 #rm -rf /opt/go/lxd
 rm -rf /opt/go/
