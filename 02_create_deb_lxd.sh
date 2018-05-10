@@ -126,6 +126,11 @@ ExecStart=/usr/bin/lxd
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure
+# Time between restart if fail
+RestartSec=5
+# Max 3 retry
+StartLimitInterval=200
+StartLimitBurst=3
 
 [Install]
 WantedBy=multi-user.target
