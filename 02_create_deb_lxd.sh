@@ -55,6 +55,9 @@ if ! grep -q root:1000000:65536 /etc/subgid; then
     update_subXids=true
 fi
 
+logger --stderr --tag lxd-install --priority notice "Create system group lxd"
+groupadd --system lxd
+
 logger --stderr --tag lxd-install --priority notice "Enable lxd daemon"
 systemctl daemon-reload
 systemctl enable lxd
