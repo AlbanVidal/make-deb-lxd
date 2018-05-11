@@ -122,7 +122,7 @@ Description=LXD
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/lxd
+ExecStart=/usr/bin/lxd --group lxd
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure
