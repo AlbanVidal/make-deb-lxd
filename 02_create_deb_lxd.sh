@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# TODO:
+#  - sortie colorée
+
+################################################################################
+##########                    Define color to output:                 ##########
+################################################################################
+_WHITE_="tput sgr0"
+_RED_="tput setaf 1"
+_GREEN_="tput setaf 2"
+_ORANGE_="tput setaf 3"
+################################################################################
+
 # Search the actual version number in LXD sources
 version_maj=$(grep -Eo '[0-9]+\.[0-9]+' /opt/go/src/github.com/lxc/lxd/shared/version/flex.go)
 

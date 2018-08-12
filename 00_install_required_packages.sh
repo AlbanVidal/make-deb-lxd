@@ -1,10 +1,21 @@
 #!/bin/bash
 
+################################################################################
+##########                    Define color to output:                 ##########
+################################################################################
+_WHITE_="tput sgr0"
+_RED_="tput setaf 1"
+_GREEN_="tput setaf 2"
+_ORANGE_="tput setaf 3"
+################################################################################
+
 # Update and upgrade OS
+echo "$($_ORANGE_)Update and upgrade OS$($_WHITE_)"
 apt-get update
 apt-get upgrade -y
 
 # Need golang v10
+echo "$($_ORANGE_)Need golang v10 - Install it$($_WHITE_)"
 if grep stretch /etc/os-release; then
     ## For stretch (Debian 9), install via stretch-backports repository
     # Install software-properties-common, necessary for use add-apt-repository
@@ -20,10 +31,14 @@ elif grep buster /etc/os-release; then
 fi
 
 # Required : Install nécessary packages and dependencyies to compile LXC
+echo "$($_ORANGE_)Required : Install nécessary packages and dependencyies to compile LXC$($_WHITE_)"
 apt install -y acl dnsmasq-base git liblxc1 lxc-dev libacl1-dev make pkg-config rsync squashfs-tools tar xz-utils bsdutils
+
 # Optional : Install LVM tools and lvm thin provisioning tools
+echo "$($_ORANGE_)Optional : Install LVM tools and lvm thin provisioning tools$($_WHITE_)"
 apt install -y lvm2 thin-provisioning-tools
 
 # Optional : Install bridge-utils to create a bridge to test LXD in this host
+echo "$($_ORANGE_)Optional : Install bridge-utils to create a bridge to test LXD in this host$($_WHITE_)"
 apt install -y bridge-utils
 
