@@ -29,6 +29,10 @@ go get github.com/lxc/lxd
 # Go to the source code directory
 cd $GOPATH/src/github.com/lxc/lxd
 
+# Make missing dependencies
+echo "$($_ORANGE_)Make missing dependencies$($_WHITE_)"
+make deps
+
 # Compile latest version of LXD - this will download all dependencies of LXD in other github repositories
 echo "$($_ORANGE_)Compile latest version of LXD - this will download all dependencies of LXD in other github repositories$($_WHITE_)"
 make
