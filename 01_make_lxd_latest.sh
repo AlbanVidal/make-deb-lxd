@@ -14,7 +14,7 @@ echo "$($_ORANGE_)purge (delete) old binary (/opt/go/bin)$($_WHITE_)"
 rm -rf /opt/go/bin
 
 # Create source directory and binary directory
-$($_WHITE_)"Create source directory and binary directory (/opt/go)$($_WHITE_)"
+echo "$($_ORANGE_)Create source directory and binary directory (/opt/go)$($_WHITE_)"
 mkdir -p /opt/go
 
 export GOPATH=/opt/go
