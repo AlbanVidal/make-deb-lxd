@@ -65,6 +65,10 @@ apt install -y      \
     bsdutils        \
     tcl             \
     autoconf        \
+    libtool         \
+    libuv1          \
+    libsqlite3-dev  \
+    libcap-dev      \
     > /dev/null
 
 # Optional : Install LVM tools and lvm thin provisioning tools

@@ -33,6 +33,12 @@ cd $GOPATH/src/github.com/lxc/lxd
 echo "$($_ORANGE_)Make missing dependencies$($_WHITE_)"
 make deps
 
+# Load environment variables
+echo "$($_ORANGE_)Environment variables (CGO_CFLAGS, CGO_LDFLAGS, and LD_LIBRARY_PATH)$($_WHITE_)"
+export CGO_CFLAGS="-I/opt/go/deps/sqlite/ -I/opt/go/deps/dqlite/include/"
+export CGO_LDFLAGS="-L/opt/go/deps/sqlite/.libs/ -L/opt/go/deps/dqlite/.libs/"
+export LD_LIBRARY_PATH="/opt/go/deps/sqlite/.libs/:/opt/go/deps/dqlite/.libs/"
+
 # Compile latest version of LXD - this will download all dependencies of LXD in other github repositories
 echo "$($_ORANGE_)Compile latest version of LXD - this will download all dependencies of LXD in other github repositories$($_WHITE_)"
 make
