@@ -30,9 +30,9 @@ elif grep buster /etc/os-release; then
     apt-get install -y golang
 fi
 
-# Required : Install nécessary packages and dependencyies to compile LXC
-echo "$($_ORANGE_)Required : Install nécessary packages and dependencyies to compile LXC$($_WHITE_)"
-apt install -y acl dnsmasq-base git liblxc1 lxc-dev libacl1-dev make pkg-config rsync squashfs-tools tar xz-utils bsdutils
+# Required : Install nécessary packages and dependencies to compile LXC
+echo "$($_ORANGE_)Required : Install nécessary packages and dependencies to compile LXC$($_WHITE_)"
+apt install -y acl dnsmasq-base git liblxc1 lxc-dev libacl1-dev make pkg-config rsync squashfs-tools tar xz-utils bsdutils tcl
 
 # Optional : Install LVM tools and lvm thin provisioning tools
 echo "$($_ORANGE_)Optional : Install LVM tools and lvm thin provisioning tools$($_WHITE_)"
