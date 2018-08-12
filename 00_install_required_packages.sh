@@ -67,6 +67,7 @@ apt-get install -y  \
     autoconf        \
     libtool         \
     libuv1          \
+    libuv1-dev      \
     libsqlite3-dev  \
     libcap-dev      \
     > /dev/null
