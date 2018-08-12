@@ -15,7 +15,7 @@ apt-get update     > /dev/null
 apt-get upgrade -y > /dev/null
 
 # Need golang v10
-if grep stretch /etc/os-release; then
+if grep -q stretch /etc/os-release; then
 
     ## For stretch (Debian 9), install via stretch-backports repository
     echo "$($_GREEN_)Debian Stretch detected$($_WHITE_)"
@@ -31,7 +31,7 @@ if grep stretch /etc/os-release; then
     echo "$($_ORANGE_)Install golang package from stretch-backports repository$($_WHITE_)"
     apt-get install -y -t stretch-backports golang golang-doc golang-go golang-src > /dev/null
 
-elif grep buster /etc/os-release; then
+elif grep -q buster /etc/os-release; then
 
     # natively in buster (Debian 10)
     echo "$($_GREEN_)Debian Buster detected$($_WHITE_)"
@@ -49,7 +49,7 @@ fi
 
 # Required : Install nécessary packages and dependencies to compile LXC
 echo "$($_ORANGE_)Required : Install nécessary packages and dependencies to compile LXC$($_WHITE_)"
-apt install -y      \
+apt-get install -y  \
     acl             \
     dnsmasq-base    \
     git             \
@@ -73,12 +73,14 @@ apt install -y      \
 
 # Optional : Install LVM tools and lvm thin provisioning tools
 echo "$($_ORANGE_)Optional : Install LVM tools and lvm thin provisioning tools$($_WHITE_)"
-apt install -y              \
+apt-get install -y          \
     lvm2                    \
     thin-provisioning-tools \
     > /dev/null
 
 # Optional : Install bridge-utils to create a bridge to test LXD in this host
 echo "$($_ORANGE_)Optional : Install bridge-utils to create a bridge to test LXD in this host$($_WHITE_)"
-apt install -y bridge-utils > /dev/null
+apt-get install -y  \
+    bridge-utils    \
+    > /dev/null
 
